@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello</title>
+    <title>Posts</title>
 </head>
 <body>
-    <h1>This is your homepage :) </h1>
-    <h1>Agent: {{ agent | upper }}</h1>
+    <h1>Post № {{post["id"]}} - {{post["title"]}} </h1>
+
+    <p>{{ post.get('content') }}</p>
+
+    <a href="/posts">Return posts</a>
+
 </body>
 </html>

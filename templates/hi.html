@@ -7,6 +7,12 @@
 </head>
 <body>
     <h1>This is your homepage :) </h1>
-    <h1>Agent: {{ agent | upper }}</h1>
+    <h1>User: {{ name | title }}</h1>
+
+    {% if age %}
+        <h1>Age: {{ age }}</h1>
+    {% else %}
+        <h2>Age: empty </h2>
+    {% endif %}
 </body>
 </html>
