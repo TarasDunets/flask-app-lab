@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 
 app = Flask(__name__)
 
@@ -9,8 +9,9 @@ def hello_world():
 @app.route('/homepage') 
 def home():
     """View for the Home page of your website."""
-
-    return "This is your homepage :) "
+    agent = request.user_agent
+    
+    return "This is your homepage :) - {agent}"
     
 if __name__ == '__main__':
     app.run(debug=True)
