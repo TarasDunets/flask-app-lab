@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Моє резюме{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <header class="bg-primary text-white text-center p-3">
+        <h1>Резюме</h1>
+        <nav>
+            <a href="#about" class="text-white">Про себе</a> |
+            <a href="#education" class="text-white">Освіта</a> |
+            <a href="#skills" class="text-white">Навички</a> |
+            <a href="#experience" class="text-white">Досвід роботи</a>
+        </nav>
+    </header>
+
+    <main class="container mt-5">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-dark text-white text-center p-3 mt-5">
+        <p>© 2024. Створено студентом групи ІПЗ_31, Андрусяком Іллею.</p>
+    </footer>
+</body>
+</html>
