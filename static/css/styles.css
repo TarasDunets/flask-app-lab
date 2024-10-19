@@ -1,0 +1,113 @@
+/* Загальні налаштування */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+/* Заголовки */
+h1, h2 {
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Посилання в навігації */
+a {
+    color: #ffffff;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #ffcc00;
+    text-decoration: none;
+}
+
+/* Заголовок */
+header {
+    background-color: #007bff; /* Bootstrap primary color */
+    padding: 20px 0;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+header nav a {
+    margin: 0 15px;
+    font-size: 1.2rem;
+}
+
+header nav a:hover {
+    color: #ffc107; /* Bootstrap warning color */
+}
+
+/* Секції */
+section {
+    background-color: #ffffff;
+    padding: 40px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+section h2 {
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+section p, ul {
+    font-size: 1.1rem;
+}
+
+section ul li {
+    padding: 5px 0;
+    position: relative;
+    padding-left: 25px;
+}
+
+section ul li:before {
+    content: '\2024'; /* Bullet point */
+    position: absolute;
+    left: 0;
+    color: #007bff;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+/* Футер */
+footer {
+    background-color: #343a40; /* Bootstrap dark color */
+    color: #ffffff;
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+footer p {
+    margin: 0;
+    color: #ffffff;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    header nav a {
+        font-size: 1rem;
+    }
+    section {
+        padding: 20px;
+    }
+}
