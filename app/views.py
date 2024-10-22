@@ -1,7 +1,5 @@
-from flask import Flask, request, url_for, render_template
-
-app = Flask(__name__)
-app.config.from_pyfile("config.py")
+from flask import Flask, request, url_for, render_template, abort
+from . import app
 
 @app.route('/')
 def hello_world():
@@ -47,6 +45,3 @@ def detail_post(id):
 @app.route('/resume') 
 def get_resume():
     return render_template("resume.html")
-
-if __name__ == '__main__':
-    app.run(debug=True)
