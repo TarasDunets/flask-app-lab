@@ -1,6 +1,17 @@
-{% extends "base3.html" %}
+{% extends "base.html" %}
 
 {% block content %}
+
+<header class="bg-primary text-white text-center p-3">
+    <h1>Резюме</h1>
+    <nav>
+        <a href="#about" class="text-white">Про себе</a> |
+        <a href="#education" class="text-white">Освіта</a> |
+        <a href="#skills" class="text-white">Навички</a> |
+        <a href="#experience" class="text-white">Досвід роботи</a>
+    </nav>
+</header>
+
 <section id="about" class="mb-4">
     <h2>Про себе</h2>
     <img src="{{ url_for('static', filename='images/avatar.jpg') }}" alt="Фото">

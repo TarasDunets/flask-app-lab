@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %} Вітання {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('users.greetings', name='John', age = 30) }}">Hi, John</a></li>
+                    <li><a href="{{ url_for('users.greetings', name='Jane', age = 20) }}">Hello, Jane</a></li>
+                    <li><a href="{{ url_for('users.greetings', name='Brook', age = 27) }}">Wassup, Brook!</a></li>
+                    <li><a href="{{ url_for('users.admin') }}">Welcome, administrator</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-md-9">
+            <h1>Greetings, {{ name }}!</h1>
+            {% if age %}
+                <p>Age: {{ age }}</p>
+            {% else %}
+                <p>Age is unknown.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
