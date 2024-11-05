@@ -15,39 +15,67 @@ def admin():
     print(to_url)
     return redirect(to_url)
 
-@users_bp.route('/set_cookie')
+@users_bp.route('/get_cookie/<key>')
+def get_cookie(key):
+    value = request.cookies.get(key)
+    if value:
+        return f'Кукі {key}: {value}'
+    else:
+        return f'Кукі {key} не знайдено', 404
+
+@users_bp.route('/set_cookie', methods=['POST'])
 def set_cookie():
-    response = make_response('Кука встановлена')
-    response.set_cookie('username', 'student', max_age=timedelta(seconds=60))
-    response.set_cookie('color', '', max_age=timedelta(seconds=60))
-    return response
+    key = request.form['key']
+    value = request.form['value']
+    duration = int(request.form.get('duration', 0))  # Час зберігання кукі в секундах
+    max_age = timedelta(seconds=duration)
+    
+    resp = make_response(redirect(url_for('users.get_profile')))
+    resp.set_cookie(key, value, max_age=max_age)
+    
+    flash(f'Кукі {key} було встановлено на {duration} секунд!', 'success')
+    return resp
 
-@users_bp.route('/get_cookie')
-def get_cookie():
-    username = request.cookies.get('username')
-    return f'Користувач: {username}'
-
-@users_bp.route('/delete_cookie')
+@users_bp.route('/delete_cookie', methods=['POST'])
 def delete_cookie():
-    response = make_response('Кука видалена')
-    response.set_cookie('username', '', expires=0) # response.set_cookie('username', '', max_age=0)
-    return response
+    key = request.form['key']
+    resp = make_response(redirect(url_for('users.get_profile')))
+    resp.delete_cookie(key)
+    flash(f'Кукі {key} було видалено!', 'success')
+    return resp
+
+@users_bp.route('/delete_all_cookies', methods=['POST'])
+def delete_all_cookies():
+    resp = make_response(redirect(url_for('users.get_profile')))
+    
+    for key in request.cookies.keys():  # Видаляємо кожен кукі
+        resp.delete_cookie(key)
+    
+    flash('Усі кукі були видалені!', 'success')
+    return resp
 
 @users_bp.route("/profile")
 def get_profile():
-    if "username" in session:
-        username_value = session["username"]
-        return render_template("profile.html", username=username_value)
-    flash("Invalid: Session.", "danger")
-    return redirect(url_for("user_name.login"))
+    if 'user' not in session:
+        flash('Спочатку увійдіть до системи!', 'error')
+        return redirect(url_for('login'))
+    
+    theme = request.cookies.get("theme", "light")
+    cookies = request.cookies  # Отримання всіх кукі для відображення
+    return render_template('profile.html', username=session['user'], cookies=cookies, theme=theme)
 
 @users_bp.route("/login",  methods=['GET', 'POST'])
 def login():
     if request.method == "POST":
-        username = request.form["login"]
-        session["username"] = username
-        flash("Success: session added successfully.", "success")
-        return redirect(url_for("user_name.get_profile"))
+        username = request.form['username']
+        password = request.form['password']
+        if username == 'admin' and password == 'admin':  # Перевірка автентифікації
+            session['user'] = username
+            flash('Вхід успішний!', 'success')
+            return redirect(url_for('users.get_profile'))
+        else:
+            flash('Невірне ім’я користувача або пароль!', 'error')
+            return redirect(url_for('users.login'))
     return render_template("login.html")
 
 @users_bp.route('/logout')
@@ -55,4 +83,16 @@ def logout():
     # Видалення користувача із сесії
     session.pop('username', None)
     session.pop('age', None)
-    return redirect(url_for('user_name.get_profile'))
+    return redirect(url_for('users.login'))
+
+@users_bp.route("/set_theme/<theme>")
+def set_theme(theme):
+    if theme not in ["light", "dark"]:
+        flash("Невідома кольорова схема!", "error")
+        return redirect(url_for("users.get_profile"))
+
+    # Створюємо відповідь з кукі для збереження теми
+    response = redirect(url_for("users.get_profile"))
+    response.set_cookie("theme", theme)
+    flash("Кольорова схема змінена!", "success")
+    return response

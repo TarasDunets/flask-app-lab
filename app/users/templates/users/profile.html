@@ -1,6 +1,40 @@
 {% extends 'base.html' %}
 {% block title %}Greeting Page{% endblock %}
 {% block content %}
-<h1>Hi, {{ username }}</h1>
-<a href="{{url_for('user_name.logout')}}">logout</a>
+<div class="container {% if theme == 'dark' %}bg-dark text-white{% else %}bg-light text-dark{% endif %}">
+    <h1>Hi, {{ username }}</h1>
+    <a href="{{ url_for('users.set_theme', theme='light') }}" class="btn btn-primary">Світла тема</a>
+    <a href="{{ url_for('users.set_theme', theme='dark') }}" class="btn btn-dark">Темна тема</a>
+    <a href="{{url_for('users.logout')}}">logout</a>
+
+    <h2>Управління кукі</h2>
+    <form method="POST" action="{{ url_for('users.set_cookie') }}">
+        <label for="key">Ключ кукі:</label>
+        <input type="text" name="key" required>
+        <label for="value">Значення кукі:</label>
+        <input type="text" name="value">
+        <label for="duration">Час зберігання (секунди):</label>
+        <input type="number" name="duration" required>
+        <button type="submit">Додати кукі</button>
+    </form>
+
+    <form method="POST" action="{{ url_for('users.delete_cookie') }}">
+        <label for="key">Ключ кукі для видалення:</label>
+        <input type="text" name="key" required>
+        <button type="submit">Видалити кукі</button>
+    </form>
+
+    <!-- Форма для видалення всіх кукі -->
+    <form method="POST" action="{{ url_for('users.delete_all_cookies') }}">
+        <button type="submit">Видалити всі кукі</button>
+    </form>
+
+    <h3>Поточні кукі</h3>
+    <table>
+        <tr><th>Ключ</th><th>Значення</th></tr>
+        {% for key, value in cookies.items() %}
+        <tr><td>{{ key }}</td><td>{{ value }}</td></tr>
+        {% endfor %}
+    </table>
+</div>
 {% endblock %}
