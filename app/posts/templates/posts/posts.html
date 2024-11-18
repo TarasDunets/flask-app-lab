@@ -1,13 +1,33 @@
 {% extends 'base.html' %}
 {% block title %} POSTS {% endblock %}
 {% block content %}
-<h1>Articles</h1>
-    
-<ul>
-    {% for post in posts%}
-        <li> {{post["id"]}} -  
-            <a href="{{ url_for('posts.detail_post', id=post['id']) }}">{{post["title"]}}</a>
-        </li>
-    {% endfor %}
-</ul>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+
+<div class="container">
+    <div class="row mt-n5">
+        {% for post in posts %}
+        <div class="col-md-6 col-lg-4 mt-5 wow fadeInUp" data-wow-delay=".2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+            <div class="blog-grid">
+                <div class="blog-grid-img position-relative">
+                    <img alt="img" src="{{ post['image_url'] if post['image_url'] else 'https://www.bootdey.com/image/480x480/00FFFF/000000' }}" width="350">
+                </div>
+                <div class="blog-grid-text p-4">
+                    <h3 class="h5 mb-3">
+                        <a href="{{ url_for('posts.detail_post', id=post['id']) }}">{{ post["title"] }}</a>
+                    </h3>
+                    <p class="display-30">{{ post["content"][:100] }}...</p>
+                    <div class="meta meta-style2">
+                        <ul>
+                            <li><a href="#!"><i class="fas fa-calendar-alt"></i> {{ post["date"] }}</a></li>
+                            <li><a href="#!"><i class="fas fa-user"></i> {{ post["author"] }}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
 {% endblock %}

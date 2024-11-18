@@ -15,3 +15,7 @@ def home():
 @app.route('/resume') 
 def get_resume():
     return render_template("resume.html")
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
