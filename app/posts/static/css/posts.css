@@ -1,0 +1,22 @@
+.post {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.post img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.post-title {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.post-content {
+    color: #555;
+}
