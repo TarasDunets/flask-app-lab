@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Редагувати пост</h1>
+<form method="POST" action="{{ url_for('posts.edit_post', post_id=post.id) }}">
+    <label for="title">Заголовок:</label>
+    <input type="text" name="title" id="title" value="{{ post.title }}" required>
+    
+    <label for="content">Контент:</label>
+    <textarea name="content" id="content" required>{{ post.content }}</textarea>
+    
+    <label for="posted">Дата публікації:</label>
+    <input type="datetime-local" name="posted" id="posted" value="{{ post.posted.strftime('%Y-%m-%dT%H:%M') }}" required>
+    
+    <button type="submit">Зберегти зміни</button>
+</form>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul>
+        {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+{% endblock %}
