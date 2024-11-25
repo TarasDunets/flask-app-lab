@@ -4,41 +4,58 @@
 <h1>Додати новий пост</h1>
 
 <form method="POST" action="{{ url_for('posts.add_post') }}">
+    {{ form.hidden_tag() }}
+
     <div>
-        <label for="title">Заголовок:</label>
-        <input type="text" id="title" name="title" placeholder="Введіть заголовок" required>
-    </div>
-    
-    <div>
-        <label for="content">Контент:</label>
-        <textarea id="content" name="content" placeholder="Введіть текст поста" required></textarea>
+        {{ form.title.label }}
+        {{ form.title(class="form-control") }}
+        {% for error in form.title.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
 
     <div>
-        <label for="is_active">Активний:</label>
-        <select id="is_active" name="is_active" required>
-            <option value="true">Так</option>
-            <option value="false">Ні</option>
-        </select>
-    </div>
-    
-    <div>
-        <label for="category">Категорія:</label>
-        <input type="text" id="category" name="category" placeholder="Введіть категорію" required>
-    </div>
-    
-    <div>
-        <label for="author">Автор:</label>
-        <input type="text" id="author" name="author" placeholder="Введіть ім'я автора" required>
-    </div>
-    
-    <div>
-        <label for="posted">Дата публікації:</label>
-        <input type="datetime-local" id="posted" name="posted" required>
+        {{ form.content.label }}
+        {{ form.content(class="form-control") }}
+        {% for error in form.content.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
 
     <div>
-        <button type="submit">Додати пост</button>
+        {{ form.is_active.label }}
+        {{ form.is_active(class="form-control") }}
+        {% for error in form.is_active.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div>
+        {{ form.category.label }}
+        {{ form.category(class="form-control") }}
+        {% for error in form.category.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div>
+        {{ form.author.label }}
+        {{ form.author(class="form-control") }}
+        {% for error in form.author.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div>
+        {{ form.posted.label }}
+        {{ form.posted(class="form-control") }}
+        {% for error in form.posted.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div>
+        {{ form.submit(class="btn btn-primary") }}
     </div>
 </form>
 

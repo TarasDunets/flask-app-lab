@@ -26,47 +26,69 @@ def add_post():
         flash('Будь ласка, увійдіть, щоб створити пост.', 'error')
         return redirect(url_for('users.login'))
 
-    if request.method == 'POST':
-        title = request.form['title']
-        content = request.form['content']
-        is_active = request.form['is_active']
-        category = request.form['category']
-        author = request.form['author']
-        posted = datetime.strptime(request.form['posted'], '%Y-%m-%dT%H:%M')
+    form = PostForm()
 
-        # Конвертація is_active у булевий тип
-        is_active = True if is_active.lower() == 'true' else False
+    if form.validate_on_submit():
+        try:
+            # Отримуємо дані з форми
+            title = form.title.data
+            content = form.content.data
+            is_active = form.is_active.data
+            category = form.category.data
+            author = form.author.data
+            posted = form.posted.data
 
-        post = Post(title=title, content=content, posted=posted, is_active=is_active, category=category, author=author)
-        db.session.add(post)
-        db.session.commit()
-        flash("Post created successfully!", "success")
-        return redirect(url_for('posts.get_posts'))
-    return render_template('add_form.html')
+            # Конвертація is_active у булевий тип
+            is_active = True if is_active == 'true' else False
 
-@post_bp.route('/edit/<int:post_id>', methods=['GET', 'POST'])
+            # Створюємо новий об'єкт Post
+            post = Post(
+                title=title,
+                content=content,
+                posted=posted,
+                is_active=is_active,
+                category=category,
+                author=author
+            )
+            db.session.add(post)
+            db.session.commit()
+
+            flash("Пост успішно створено!", "success")
+            return redirect(url_for('posts.get_posts'))
+
+        except Exception as e:
+            flash(f"Помилка: {str(e)}", "error")
+            return redirect(url_for('posts.add_post'))
+
+    return render_template('add_form.html', form=form)
+
+@post_bp.route('/edit_post/<int:post_id>', methods=['GET', 'POST'])
 def edit_post(post_id):
+    # Отримуємо пост за ID
     post = Post.query.get_or_404(post_id)
 
-    if request.method == 'POST':
-        post.title = request.form.get('title')
-        post.content = request.form.get('content')
-        posted = request.form.get('posted')
+    # Ініціалізуємо форму з даними поста
+    form = PostForm(obj=post)
 
-        if not post.title or not post.content or not posted:
-            flash('Будь ласка, заповніть всі поля!', 'error')
-            return redirect(url_for('posts.edit_post', post_id=post_id))
-
+    if form.validate_on_submit():
         try:
-            post.posted = datetime.strptime(posted, '%Y-%m-%dT%H:%M')
+            # Оновлюємо дані поста
+            post.title = form.title.data
+            post.content = form.content.data
+            post.is_active = True if form.is_active.data == 'true' else False
+            post.category = form.category.data
+            post.author = form.author.data
+            post.posted = form.posted.data
+
             db.session.commit()
-            flash('Пост успішно оновлено!', 'success')
-            return redirect(url_for('posts.list_posts'))
-        except ValueError:
-            flash('Неправильний формат дати!', 'error')
+            flash("Пост успішно оновлено!", "success")
+            return redirect(url_for('posts.get_posts'))
+
+        except Exception as e:
+            flash(f"Помилка: {str(e)}", "error")
             return redirect(url_for('posts.edit_post', post_id=post_id))
 
-    return render_template('edit.html', post=post)
+    return render_template('edit.html', form=form, post=post)
 
 @post_bp.route('/delete/<int:post_id>', methods=['POST'])
 def delete_post(post_id):

@@ -2,19 +2,64 @@
 
 {% block content %}
 <h1>Редагувати пост</h1>
+
 <form method="POST" action="{{ url_for('posts.edit_post', post_id=post.id) }}">
-    <label for="title">Заголовок:</label>
-    <input type="text" name="title" id="title" value="{{ post.title }}" required>
-    
-    <label for="content">Контент:</label>
-    <textarea name="content" id="content" required>{{ post.content }}</textarea>
-    
-    <label for="posted">Дата публікації:</label>
-    <input type="datetime-local" name="posted" id="posted" value="{{ post.posted.strftime('%Y-%m-%dT%H:%M') }}" required>
-    
-    <button type="submit">Зберегти зміни</button>
+    {{ form.hidden_tag() }}
+
+    <div>
+        {{ form.title.label }}
+        {{ form.title(class="form-control", value=post.title) }}
+        {% for error in form.title.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div>
+        {{ form.content.label }}
+        {{ form.content(class="form-control") }}
+        {% for error in form.content.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div>
+        {{ form.is_active.label }}
+        {{ form.is_active(class="form-control") }}
+        {% for error in form.is_active.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div>
+        {{ form.category.label }}
+        {{ form.category(class="form-control") }}
+        {% for error in form.category.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div>
+        {{ form.author.label }}
+        {{ form.author(class="form-control") }}
+        {% for error in form.author.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div>
+        {{ form.posted.label }}
+        {{ form.posted(class="form-control", value=post.posted.strftime('%Y-%m-%dT%H:%M')) }}
+        {% for error in form.posted.errors %}
+            <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+
+    <div>
+        {{ form.submit(class="btn btn-primary") }}
+    </div>
 </form>
 
+<!-- Виведення повідомлень через Flash -->
 {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
         <ul>

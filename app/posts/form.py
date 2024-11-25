@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, DateTimeLocalField, SubmitField
+from wtforms import StringField, TextAreaField, BooleanField, SelectField, DateTimeLocalField, SubmitField
 from wtforms.validators import DataRequired
 from app.posts.models import Post
 from app import db
@@ -7,6 +7,13 @@ from app import db
 class PostForm(FlaskForm):
     title = StringField('Заголовок', validators=[DataRequired()])
     content = TextAreaField('Контент', validators=[DataRequired()])
+    is_active = SelectField(
+        'Активний',
+        choices=[('true', 'Так'), ('false', 'Ні')],
+        validators=[DataRequired()]
+    )
+    category = StringField('Категорія', validators=[DataRequired()])
+    author = StringField('Автор', validators=[DataRequired()])
     posted = DateTimeLocalField('Дата публікації', format='%Y-%m-%dT%H:%M', validators=[DataRequired()])
     submit = SubmitField('Зберегти')
 
