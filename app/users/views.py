@@ -1,5 +1,5 @@
 from . import users_bp
-from flask import render_template, redirect, request, url_for, make_response
+from flask import render_template, redirect, request, url_for, make_response, session, flash
 from datetime import timedelta, datetime
 
 @users_bp.route("/hi/<string:name>")   #/hi/ivan?age=45&q=fdfdf
@@ -21,12 +21,38 @@ def set_cookie():
     response.set_cookie('username', 'student', max_age=timedelta(seconds=60))
     response.set_cookie('color', '', max_age=timedelta(seconds=60))
     return response
+
 @users_bp.route('/get_cookie')
 def get_cookie():
     username = request.cookies.get('username')
     return f'Користувач: {username}'
+
 @users_bp.route('/delete_cookie')
 def delete_cookie():
     response = make_response('Кука видалена')
     response.set_cookie('username', '', expires=0) # response.set_cookie('username', '', max_age=0)
     return response
+
+@users_bp.route("/profile")
+def get_profile():
+    if "username" in session:
+        username_value = session["username"]
+        return render_template("profile.html", username=username_value)
+    flash("Invalid: Session.", "danger")
+    return redirect(url_for("user_name.login"))
+
+@users_bp.route("/login",  methods=['GET', 'POST'])
+def login():
+    if request.method == "POST":
+        username = request.form["login"]
+        session["username"] = username
+        flash("Success: session added successfully.", "success")
+        return redirect(url_for("user_name.get_profile"))
+    return render_template("login.html")
+
+@users_bp.route('/logout')
+def logout():
+    # Видалення користувача із сесії
+    session.pop('username', None)
+    session.pop('age', None)
+    return redirect(url_for('user_name.get_profile'))
