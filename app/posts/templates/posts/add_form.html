@@ -11,8 +11,9 @@
     {{ render_field(form.content) }}
     {{ render_field(form.is_active) }}
     {{ render_field(form.category) }}
-    {{ render_field(form.author) }}
+    {{ render_field(form.author_id) }}
     {{ render_field(form.posted) }}
+    {{ render_field(form.tags) }}
 
     <div>
         {{ form.submit(class="btn btn-primary") }}

@@ -4,6 +4,7 @@ from flask import render_template, abort, redirect, url_for, flash, session, req
 from .models import Post
 from app import db
 from datetime import datetime
+from app.users.models import User
 
 @post_bp.route('/')
 def get_posts():
@@ -28,30 +29,12 @@ def add_post():
 
     form = PostForm()
 
+    authors = User.query.all()
+    form.author_id.choices = [(author.id, author.username) for author in authors]
+
     if form.validate_on_submit():
         try:
-            # Отримуємо дані з форми
-            title = form.title.data
-            content = form.content.data
-            is_active = form.is_active.data
-            category = form.category.data
-            author = form.author.data
-            posted = form.posted.data
-
-            # Конвертація is_active у булевий тип
-            is_active = True if is_active == 'true' else False
-
-            # Створюємо новий об'єкт Post
-            post = Post(
-                title=title,
-                content=content,
-                posted=posted,
-                is_active=is_active,
-                category=category,
-                author=author
-            )
-            db.session.add(post)
-            db.session.commit()
+            save_post(form)
 
             flash("Пост успішно створено!", "success")
             return redirect(url_for('posts.get_posts'))

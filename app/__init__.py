@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+from flask_migrate import Migrate # type: ignore
 from sqlalchemy.orm import DeclarativeBase
 
 class Base(DeclarativeBase):
@@ -20,6 +20,7 @@ def create_app(config_name="config"):
     from .posts import models
     from .posts import post_bp
     from .users import users_bp
+    from .users import models
     app.register_blueprint(post_bp)
     app.register_blueprint(users_bp)
     from . import views
