@@ -1,0 +1,54 @@
+[
+
+    {
+        "id": 1,
+        "title": "My First Post",
+        "content": "This is the content of my first post.",
+        "author": "John Doe",
+        "date": "2024-11-17",
+        "comments_count": 10,
+        "image_url": "https://www.bootdey.com/image/480x480/00FFFF/000000"
+    },
+    {
+        "id": 2,
+        "title": "Another Post",
+        "content": "Today I learned about Flask macros.",
+        "author": "Jane Smith",
+        "date": "2024-11-18",
+        "comments_count": 5,
+        "image_url": null
+    },
+    {
+        "id": 3, 
+        "title": "Flask and Jinja2", 
+        "content": "Jinja2 is powerful for templating.", 
+        "author": "Mike Lee"
+    },
+    {
+        "id": 4,
+        "title": "Lol",
+        "content": "Kek",
+        "category": "lifestyle",
+        "is_active": true,
+        "publication_date": "2024-11-17",
+        "author": "Default Author"
+    },
+    {
+        "id": 5,
+        "title": "lol",
+        "content": "kek",
+        "category": "lifestyle",
+        "is_active": true,
+        "publication_date": "2024-11-18",
+        "author": "admin"
+    },
+    {
+        "id": 6,
+        "title": "aa",
+        "content": "oo",
+        "category": "science",
+        "is_active": true,
+        "publication_date": "2024-11-18",
+        "author": "admin"
+    }
+]
