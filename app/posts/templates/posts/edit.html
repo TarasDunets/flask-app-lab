@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% from "macros/form_macros.html" import render_field %}
+
+{% block content %}
+<h1>Редагувати пост</h1>
+
+<form method="POST" action="{{ url_for('posts.edit_post', post_id=post.id) }}">
+    {{ form.hidden_tag() }}
+
+    {{ render_field(form.title) }}
+    {{ render_field(form.content) }}
+    {{ render_field(form.is_active) }}
+    {{ render_field(form.category) }}
+    {{ render_field(form.author) }}
+    {{ render_field(form.posted) }}
+
+    <div>
+        {{ form.submit(class="btn btn-primary") }}
+    </div>
+</form>
+
+<!-- Виведення повідомлень через Flash -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul>
+        {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+{% endblock %}

@@ -14,16 +14,22 @@
                 <div class="blog-grid-img position-relative">
                     <img alt="img" src="{{ post['image_url'] if post['image_url'] else 'https://www.bootdey.com/image/480x480/00FFFF/000000' }}" width="350">
                 </div>
-                <div class="blog-grid-text p-4">
+                <div class="blog-grid-text p-4"> 
                     <h3 class="h5 mb-3">
-                        <a href="{{ url_for('posts.detail_post', id=post['id']) }}">{{ post["title"] }}</a>
+                        <a href="{{ url_for('posts.detail_post', id=post['id']) }}">{{ post.title }}</a>
                     </h3>
-                    <p class="display-30">{{ post["content"][:100] }}...</p>
+                    <p class="display-30">{{ post.content }}...</p>
                     <div class="meta meta-style2">
                         <ul>
-                            <li><a href="#!"><i class="fas fa-calendar-alt"></i> {{ post["date"] }}</a></li>
-                            <li><a href="#!"><i class="fas fa-user"></i> {{ post["author"] }}</a></li>
+                            <li><a href="#!"><i class="fas fa-calendar-alt"></i> {{ post.posted.strftime('%Y-%m-%d %H:%M') }}</a></li>
+                            <li><a href="#!"><i class="fas fa-user"></i> {{ post.author }}</a></li>
                         </ul>
+                    </div>
+                    <div class="meta meta-style2">
+                        <a href="{{ url_for('posts.edit_post', post_id=post.id) }}">Редагувати</a>
+                        <form method="POST" action="{{ url_for('posts.delete_post', post_id=post.id) }}" style="display: inline;">
+                            <button type="submit" onclick="return confirm('Ви впевнені, що хочете видалити цей пост?');">Видалити</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -31,5 +37,4 @@
         {% endfor %}
     </div>
 </div>
-
 {% endblock %}
