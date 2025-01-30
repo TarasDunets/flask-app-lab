@@ -5,7 +5,7 @@ from . import app
 def hello_world():
     return render_template("base.html")
 
-@app.route('/homepage') #http://127.0.0.1:5000/homepage
+@app.route('/homepage') 
 def home():
     """View for the Home page of your website."""
     agent = request.user_agent
