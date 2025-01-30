@@ -80,7 +80,6 @@ def login():
 
 @users_bp.route('/logout')
 def logout():
-    # Видалення користувача із сесії
     session.pop('username', None)
     session.pop('age', None)
     return redirect(url_for('users.login'))
